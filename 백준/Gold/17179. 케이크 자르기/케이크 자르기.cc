@@ -8,34 +8,31 @@ int main() {
     cin.tie(NULL);
     cout.tie(NULL);
 
-    
     int N, M, L;
     cin >> N >> M >> L;
-    vector<int> cake(M);
 
+    vector<int> cake(M);
     for (int i = 0; i < M; i++)
         cin >> cake[i];
 
     for (int i = 0; i < N; i++) {
-        int count;
-        cin >> count;
+        int cut_count;
+        cin >> cut_count;
 
-        int left = 1, right = L;
-        int opt_value = 0;
-
+        int left = 1, right = L, opt_value = 0;
         while (left <= right) {
             int mid = left + (right - left) / 2;
+            int pos = 0, count = 0;
             
-            int cake_count = 0, pos = 0;
             for (int i = 0; i < M; i++) {
                 if ((cake[i] - pos) >= mid) {
-                    cake_count++;
+                    count++;
                     pos = cake[i];
-                    if (cake_count == count) break;
+                    if (count == cut_count) break;
                 }
             }
 
-            if (cake_count < count || L - pos < mid) {
+            if (count < cut_count || L - pos < mid) {
                 right = mid - 1;
             } else {
                 opt_value = mid;
