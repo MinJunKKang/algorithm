@@ -17,8 +17,8 @@ int main() {
 
     int m;
     cin >> m;
-    vector<vector<int>> adj(n+1);
 
+    vector<vector<int>> adj(n+1);
     for (int i = 0; i < m; i++) {
         int x, y;
         cin >> x >> y;
@@ -27,15 +27,14 @@ int main() {
     }
 
     vector<int> dist(n+1, -1);
-    dist[b] = 0;
     queue<int> q;
     q.push(b);
-
+    dist[b] = 0;
     while (!q.empty()) {
         int cur = q.front(); q.pop();
         if (cur == a) break;
-        for (int next : adj[cur]) {
-            if (dist[next] == -1) {
+        for (int next: adj[cur]) {
+            if (dist[next]==-1) {
                 dist[next] = dist[cur] + 1;
                 q.push(next);
             }
@@ -43,6 +42,7 @@ int main() {
     }
 
     cout << dist[a];
+
 
     return 0;
 }
