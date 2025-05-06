@@ -2,54 +2,45 @@
 #include <vector>
 #include <queue>
 
-#define INF 1e9
-
 using namespace std;
 
 int N, K;
-vector<int> dist(100001, INF);
-
-void dijkstra() {
-    dist[N] = 0;
-
-    // dist, N
-    priority_queue<pair<int, int>, vector<pair<int,int>>, greater<>> pq;
-    pq.push({0, N});
-
-    while (!pq.empty()) {
-        auto [cur_dist, cur_pos] = pq.top();
-        pq.pop();
-
-        if (cur_pos == K) {
-            cout << cur_dist;
-            return;
-        }
-
-        if (cur_pos - 1 >= 0 && dist[cur_pos-1] > cur_dist + 1) {
-            dist[cur_pos-1] = cur_dist+1;
-            pq.push({cur_dist+1, cur_pos-1});
-        }
-
-        if (cur_pos + 1 <= 100000 && dist[cur_pos+1] > cur_dist + 1) {
-            dist[cur_pos+1] = cur_dist+1;
-            pq.push({cur_dist+1, cur_pos+1});
-        }
-
-        if (cur_pos * 2 <= 100000 && dist[cur_pos*2] > cur_dist + 1) {
-            dist[cur_pos*2] = cur_dist + 1;
-            pq.push({cur_dist+1, cur_pos*2});
-        }
-    }
-}
 
 int main() {
-    ios_base::sync_with_stdio(false);
+    ios::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
     cin >> N >> K;
 
-    dijkstra();
+    vector<int> dist(100001, -1);
+
+    queue<int> q;
+    q.push(N);
+    dist[N] = 0;
+
+    while (!q.empty()) {
+        int a = q.front(); q.pop();
+
+        if (a == K) break;
+
+        if ((a-1) >= 0 && dist[a-1] == -1) {
+            dist[a-1] = dist[a] + 1;
+            q.push(a-1);
+        }
+
+        if ((a+1) <= 100000 && dist[a+1] == -1) {
+            dist[a+1] = dist[a] + 1;
+            q.push(a+1);
+        }
+
+        if ((a*2) <= 100000 && dist[a*2] == -1) {
+            dist[a*2] = dist[a] + 1;
+            q.push(a*2);
+        }
+    }
+
+    cout << dist[K];
 
     return 0;
 }
