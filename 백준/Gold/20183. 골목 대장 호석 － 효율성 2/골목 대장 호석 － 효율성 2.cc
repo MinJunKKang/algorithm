@@ -2,12 +2,14 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#define INF 1e19
+#define INF 4e18
 typedef long long ll;
 
 using namespace std;
 
-int N, M, A, B, C;
+int N, M, A, B;
+ll C;
+
 struct Edge {
     int to;
     ll w;
