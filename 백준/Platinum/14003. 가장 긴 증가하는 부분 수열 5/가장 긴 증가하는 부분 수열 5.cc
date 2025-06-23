@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int binary_search(vector<int> &dp, int target) {
+    int lft = 0, rgt = dp.size() - 1;
+    int ans = rgt + 1;
+
+    while (lft <= rgt) {
+        int mid = lft + (rgt - lft) / 2;
+        if (dp[mid] >= target) {
+            ans = mid;
+            rgt = mid - 1;
+        } else {
+            lft = mid + 1;
+        }
+    }
+
+    return ans;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cout.tie(NULL);
+    cin.tie(NULL);
+
+    int N; cin >> N;
+    vector<int> dp;
+    vector<int> dpIdx;
+
+    vector<int> line(N);
+    vector<int> parent(N, -1);
+    for (int i = 0; i < N; i++) cin >> line[i];
+
+    for (int i = 0; i < N; i++) {
+        int pos = binary_search(dp, line[i]);
+        if (pos == dp.size()) {
+            dp.push_back(line[i]);
+            dpIdx.push_back(i);
+        }
+        else {
+            dp[pos] = line[i];
+            dpIdx[pos] = i;
+        }
+
+        if (pos > 0) parent[i] = dpIdx[pos-1];
+    }
+
+
+    int len = (int)dp.size();
+    vector<int> lis(len);
+    int cur = dpIdx.back();
+    for (int k = len - 1; k >= 0; k--) {
+        lis[k] = line[cur];
+        cur = parent[cur];
+    }
+
+    cout << len << '\n';
+    for (int v: lis) {
+        cout << v << " ";
+    }
+
+    return 0;
+}
